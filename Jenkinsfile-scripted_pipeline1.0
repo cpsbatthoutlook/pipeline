@@ -1,0 +1,16 @@
+node {
+ for(i=0; i<2;i++) {
+    stage "#"+i
+   echo 'Hello World'
+   
+   if(i==0) {
+       echo "in Stage " + i
+   }
+   else{
+   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/cpsbatthoutlook/pipeline.git']]])
+   input 'Want to continue?'
+   build 'pipeline1.0'
+     }
+   } 
+ }
+
