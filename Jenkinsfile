@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('Source') {
+    stage('Init') {
       steps {
         sh 'echo "Ist stage"'
         sleep 6
