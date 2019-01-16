@@ -1,5 +1,5 @@
 pipeline {
-    agent { none }
+    agent any
      environment {
             GITREPO = 'https://github.com/atinsingh/devops'
             GITREPOBRANCH = 'master'
@@ -13,11 +13,14 @@ pipeline {
     }
 
     stages {
+        stage('Prepare') {
+            steps{deleteDir();sh ' echo present working directory is ';sh 'pwd';}
+        }  
         stage('BuildDockerImage') {
             steps{
                 sh 'sudo docker build -t cpsbatthoutlook/${DOCKERIMAGENAME} .'                
                 sh 'sudo docker inspect cpsbatthoutlook/${DOCKERIMAGENAME}'
             }
         }   
-    }
+    }    
 }
