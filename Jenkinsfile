@@ -49,13 +49,4 @@ pipeline {
             }
         }   
     }  
-    post {
-        always {
-            script {
-                if (MONGODB == true) {
-                        sh 'sudo docker stop mongodb'
-                }
-            }
-        }
-    }  
 }
