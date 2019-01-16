@@ -1,15 +1,9 @@
 pipeline {
     agent any
      environment {
-            GITREPO = 'https://github.com/atinsingh/devops'
-            GITREPOBRANCH = 'master'
-            //NAME = 'testRun'
-            //git(url:'https://github.com/atinsingh/devops', branch:'master')        
-            //SUCCESS = 'It is a Success'
             DOCKERIMAGENAME = 'node-rest-api:v2.0.0'
-            NODENAME = 'node-rest-api'
-            DOCKERFILE='Dockerfile'
             WORKINGDIR = '.'            
+            MONGODB = false
     }
 
     stages {
@@ -23,6 +17,15 @@ pipeline {
                 sh 'sudo docker inspect cpsbatthoutlook/${DOCKERIMAGENAME}'
             }
         }   
+        stage('StartMongoDb') {
+            steps{
+                script { //MongoDB is running?
+                    if (MONGODB == false ) {
+                        sh 'sudo docker start mongodb'; MONGODB = true  }
+                    else {sh 'MondoDB should be already up'}
+                }
+        }
+
     }    
 }
 
