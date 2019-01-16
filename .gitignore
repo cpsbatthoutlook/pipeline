@@ -1,0 +1,12 @@
+system/*/.vagrant
+system/MultipleVM/.vagrant/*.*
+system/devops1/.vagrant/*.*
+system/singleVM/.vagrant/*.*
+system/devops_hashi_root/.vagrant/*.*
+system/MultipleVM/Vagrantfile.multi
+system/MultipleVM/Vagrantfile.orig
+git_archive.zip
+system/jenkins/
+system/testBox/
+node_modules/
+

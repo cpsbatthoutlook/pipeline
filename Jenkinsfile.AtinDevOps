@@ -1,0 +1,70 @@
+pipeline {
+    agent any
+    triggers { pollSCM('H/5 * * * * ')}
+    environment {
+            GITREPO = 'https://github.com/atinsingh/devops'
+            GITREPOBRANCH = 'master'
+            //NAME = 'testRun'
+            //git(url:'https://github.com/atinsingh/devops', branch:'master')        
+            //SUCCESS = 'It is a Success'
+            DOCKERIMAGENAME = 'node-rest-api:v2.0.0'
+            NODENAME = 'node-rest-api'
+            DOCKERFILE='Dockerfile'
+            WORKINGDIR = '.'            
+    }
+    stages{
+        stage('Prepare') {
+            steps{deleteDir();sh ' echo present working directory is ';sh 'pwd';}
+        }       
+        stage('PullCode') {
+            steps {
+                sh 'echo pulling code from SCM ${GITREPO} ${GITREPOBRANCH} ' 
+                //git (branch: ${GITREPOBRANCH}, url:  ${GITREPO} )
+                git (branch: 'master', url: ' https://github.com/atinsingh/devops.git')
+                timeout(time: 3, unit: 'MINUTES') {
+                    sh 'echo Timing out at ${BUILD_NAME}'                 
+                }
+            }
+        }
+        stage('ValidateCode') {
+            steps {
+                sh 'echo Validate Dockerfile'
+                sh 'echo chmod command; chmod +w Dockerfile'
+                //sh 'echo Validate docker-compose.yml file'
+                //sh 'echo chmod command; chmod +w docker-compose.yml '
+            }
+        }
+        stage('runDockerBuildCmd') {
+            steps {                
+                sh 'echo Run Docker build command '
+                sh 'sudo docker build -t cpsbatthoutlook/${DOCKERIMAGENAME} .'                
+                sh 'sudo docker inspect cpsbatthoutlook/${DOCKERIMAGENAME}'
+            }
+        }
+
+        stage('RunDockerComposeToBringUpEnvironment') {
+            steps {
+                //sh 'sudo docker stop cpsbatthoutlook/${DOCKERIMAGENAME}  mongodb mongo' ;
+                sh 'echo Starting mongodb database';
+                sh 'sudo docker start mongodb';
+                sh 'sudo docker run -p 8082:3000 -d --name ${NODENAME}   cpsbatthoutlook/${DOCKERIMAGENAME} ' 
+                }
+        }
+        stage('VerifyDockerRuning') {
+                steps {
+                    sh 'sudo docker inspect mongodb '
+                    sh 'sudo docker logs $NODENAME' 
+                }
+        }
+        stage('SendMsgToUsers') {
+                steps {
+                    sh 'echo You have limited time to test the application on 8082 port;'
+                    sh ' sleep 120'                 
+                    sh 'sudo docker stop  mongodb  ${NODENAME} ';
+                    sh 'sudo docker  rm ${NODENAME} '
+                    sh 'sudo docker image rm  cpsbatthoutlook/${DOCKERIMAGENAME}'    
+
+                }
+        }
+    }
+}
