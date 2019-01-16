@@ -20,7 +20,8 @@ pipeline {
         stage('StartMongoDb') {
             steps
             {
-                 sh 'sudo docker start mongodb';MONGODB = true 
+                 sh 'sudo docker start mongodb'
+                 MONGODB = true 
                 // script { //MongoDB is running?
                 //     if (${MONGODB} == false ) {
                 //         sh 'sudo docker start mongodb'; MONGODB = true  }
