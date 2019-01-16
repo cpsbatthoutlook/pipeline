@@ -37,6 +37,7 @@ pipeline {
             }
             steps{
                 echo "sh test the server to be running fine "
+                sh ' sleep 1200'
                 
             }
         }   
