@@ -1,9 +1,7 @@
 pipeline {
     agent any
      environment {
-            DOCKERIMAGENAME = 'node-rest-api:v2.0.0'
-            WORKINGDIR = '.'            
-            MONGODB = false
+            DOCKERIMAGENAME = 'node-rest-api:v2.0.0'   //MONGODB = false
     }
 
     stages {
@@ -21,7 +19,7 @@ pipeline {
             steps
             {
                  sh 'sudo docker start mongodb'
-                 MONGODB = true 
+                // MONGODB = true 
                 // script { //MongoDB is running?
                 //     if (${MONGODB} == false ) {
                 //         sh 'sudo docker start mongodb'; MONGODB = true  }
@@ -29,6 +27,19 @@ pipeline {
                 // }
             }
         }
+        stage('DockerStartNodeJs') {
+            agent {
+                docker { 
+                    image 'cpsbatthoutlook/${DOCKERIMAGENAME}'
+                    reuseNode true
+                    args '-p 8082:3000'
+                }
+            }
+            steps{
+                echo "sh test the server to be running fine "
+                
+            }
+        }   
 
     }    
 }
