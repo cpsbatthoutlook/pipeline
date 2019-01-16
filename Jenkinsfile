@@ -14,7 +14,8 @@ pipeline {
 
     stages {
         stage('Prepare') {
-            steps{deleteDir();sh ' echo present working directory is ';sh 'pwd';}
+            steps{  //deleteDir();
+                sh ' echo present working directory is ';sh 'pwd';}
         }  
         stage('BuildDockerImage') {
             steps{
