@@ -1,7 +1,8 @@
 pipeline {
     agent any
      environment {
-            DOCKERIMAGENAME = 'node-rest-api:v2.0.0'   //MONGODB = false
+            CONTAINERNAME = 'node-rest-api'
+            DOCKERIMAGENAME = '${CONTAINERNAME}:v2.0.0'   //MONGODB = false
     }
 
     stages {
@@ -30,8 +31,8 @@ pipeline {
         }
         stage('DockerStartNodeJs1') {
             steps {
-                sh '/bin/bash runDockerContainer.sh stop cpsbatthoutlook/${DOCKERIMAGENAME}'
-                sh ' sudo docker run --rm --name ${DOCKERIMAGENAME} -p 8081:3000 -d cpsbatthoutlook/${DOCKERIMAGENAME}'
+                sh '/bin/bash runDockerContainer.sh stop ${CONTAINERNAME}'
+                sh ' sudo docker run --rm --name ${CONTAINERNAME} -p 8081:3000 -d cpsbatthoutlook/${DOCKERIMAGENAME}'
                 sh 'sleep 120'
             }
         }
@@ -51,7 +52,7 @@ pipeline {
         // }
         stage('StopContainers') {
             steps {
-                sh '/bin/bash runDockerContainer.sh stop cpsbatthoutlook/${DOCKERIMAGENAME}'
+                sh '/bin/bash runDockerContainer.sh stop ${CONTAINERNAME}'
                 sh '/bin/bash runDockerContainer.sh stop mongodb'
             }
         }
