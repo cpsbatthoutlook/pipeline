@@ -30,7 +30,9 @@ pipeline {
         }
         stage('DockerStartNodeJs1') {
             steps {
-                sh ' sudo docker run -p 8081:3000 -d cpsbatthoutlook/${DOCKERIMAGENAME}'
+                sh '/bin/bash runDockerContainer.sh stop cpsbatthoutlook/${DOCKERIMAGENAME}'
+                sh ' sudo docker run --rm --name ${DOCKERIMAGENAME} -p 8081:3000 -d cpsbatthoutlook/${DOCKERIMAGENAME}'
+                sh 'sleep 120'
             }
         }
         // stage('DockerStartNodeJs2') {
@@ -47,7 +49,7 @@ pipeline {
                 
         //     }
         // }
-        stage('StopContainersRunning') {
+        stage('StopContainers') {
             steps {
                 sh '/bin/bash runDockerContainer.sh stop cpsbatthoutlook/${DOCKERIMAGENAME}'
                 sh '/bin/bash runDockerContainer.sh stop mongodb'
