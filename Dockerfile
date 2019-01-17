@@ -1,5 +1,6 @@
 FROM docker.io/centos:latest
 RUN mkdir -p /app
+RUN echo Hello there 
 WORKDIR /app
 RUN yum -y install epel-release
 RUN yum -y install nodejs
