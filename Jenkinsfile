@@ -2,7 +2,7 @@ pipeline {
     agent any
      environment {
             CONTAINERNAME = 'node-rest-api'
-            DOCKERIMAGENAME = "${CONTAINERNAME}:v2.0.0"   //MONGODB = false
+            DOCKERIMAGENAME = "node-rest-api:v2.0.0"   //MONGODB = false
     }s
 
     stages {
