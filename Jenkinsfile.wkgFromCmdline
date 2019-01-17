@@ -19,7 +19,7 @@ pipeline {
             steps
             {
                  sh 'sudo docker start mongodb'
-                 sh '/bin/bash runDockerContainer.sh start mongodb'
+                 sh 'echo Mongodb is up'
                 // MONGODB = true 
                 // script { //MongoDB is running?
                 //     if (${MONGODB} == false ) {
@@ -33,26 +33,21 @@ pipeline {
                 sh ' sudo docker run -p 8081:3000 -d cpsbatthoutlook/${DOCKERIMAGENAME}'
             }
         }
-        // stage('DockerStartNodeJs2') {
-        //     agent {
-        //         docker { 
-        //             image 'cpsbatthoutlook/${DOCKERIMAGENAME}'
-        //             reuseNode true
-        //             args '-p 8082:3000'
-        //         }
-        //     }
-        //     steps{
-        //         echo "sh test the server to be running fine "
-        //         sh ' sleep 120'
-                
-        //     }
-        // }
-        stage('StopContainersRunning') {
-            steps {
-                sh '/bin/bash runDockerContainer.sh stop cpsbatthoutlook/${DOCKERIMAGENAME}'
-                sh '/bin/bash runDockerContainer.sh stop mongodb'
+        stage('DockerStartNodeJs2') {
+            agent {
+                docker { 
+                    image 'cpsbatthoutlook/${DOCKERIMAGENAME}'
+                    reuseNode true
+                    args '-p 8082:3000'
+                }
             }
-        }
+            steps{
+                echo "sh test the server to be running fine "
+                sh ' sleep 120'
+                
+            }
+        }   
+
     }    
 }
 
