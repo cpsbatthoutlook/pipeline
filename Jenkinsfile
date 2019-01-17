@@ -28,7 +28,10 @@ pipeline {
                 // }
             }
         }
-        stage('DockerStartNodeJs') {
+        stage('DockerStartNodeJs1') {
+            sh ' sudo docker run -p 8081:3000 -d cpsbatthoutlook/${DOCKERIMAGENAME}'
+        }
+        stage('DockerStartNodeJs2') {
             agent {
                 docker { 
                     image 'cpsbatthoutlook/${DOCKERIMAGENAME}'
