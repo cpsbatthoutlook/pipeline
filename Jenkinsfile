@@ -19,6 +19,7 @@ pipeline {
             steps
             {
                  sh 'sudo docker start mongodb'
+                 sh 'echo Mongodb is up'
                 // MONGODB = true 
                 // script { //MongoDB is running?
                 //     if (${MONGODB} == false ) {
