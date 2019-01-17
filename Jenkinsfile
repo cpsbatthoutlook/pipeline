@@ -12,7 +12,8 @@ pipeline {
         }  
         stage('BuildDockerImage') {
             steps{
-                sh 'sudo docker build -t cpsbatthoutlook/${DOCKERIMAGENAME} .'                
+                sh 'sudo docker build -t cpsbatthoutlook/${DOCKERIMAGENAME} .'
+                sh ' sleep 10 ' 
                 //sh 'sudo docker inspect cpsbatthoutlook/${DOCKERIMAGENAME}'
             }
         }   
