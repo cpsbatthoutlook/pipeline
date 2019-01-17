@@ -29,7 +29,9 @@ pipeline {
             }
         }
         stage('DockerStartNodeJs1') {
-            sh ' sudo docker run -p 8081:3000 -d cpsbatthoutlook/${DOCKERIMAGENAME}'
+            steps {
+                sh ' sudo docker run -p 8081:3000 -d cpsbatthoutlook/${DOCKERIMAGENAME}'
+            }
         }
         stage('DockerStartNodeJs2') {
             agent {
@@ -41,7 +43,7 @@ pipeline {
             }
             steps{
                 echo "sh test the server to be running fine "
-                sh ' sleep 1200'
+                sh ' sleep 120'
                 
             }
         }   
